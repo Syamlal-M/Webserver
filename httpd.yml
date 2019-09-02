@@ -1,0 +1,17 @@
+
+---
+- name: 'Installing Apache And Php'
+  hosts: docker
+  become: yes
+  tasks:
+    - name: 'Installing Apache and Php'
+      yum: name=httpd,php  state=present
+
+    - name: 'Creating index.php'
+      copy: content='<?php phpinfo(); ?>'   dest=/var/www/html/index.php
+
+    - name: 'Creating index.html'
+      copy: content='<h1>it works</h1>'   dest=/var/www/html/index.html
+
+    - name: 'Restarting/Enabling services'
+      service: name=httpd  state=restarted enabled=yes
